@@ -6,12 +6,13 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc",
-    "start": "npm run build && node dist/index.js", 
+    "start": "npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "inquirer": "^8.2.4"
   }
 }
