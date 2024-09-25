@@ -52,13 +52,74 @@ const questions = [
     }
 ];
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {`
+const licenseBadges = {
+    MIT: "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+    Apache: "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+    GPL: "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)",
+    BSD: "[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)",
+    None: ""
+};
 
-`}
+
+const generateReadme = (answers) => `
+# ${answers.title}
+
+${licenseBadges[answers.license]}
+
+## Description
+${answers.description}
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+${answers.license !== 'None' ? '- [License](#license)' : ''}
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+
+## Installation
+${answers.installation}
+
+## Usage
+${answers.usage}
+
+${answers.license !== 'None' ? `## License
+This project is licensed under the ${answers.license} license.` : ''}
+
+## Contributing
+${answers.contributing}
+
+## Tests
+${answers.tests}
+
+## Questions
+If you have any questions about the project, you can reach out to me at:
+- GitHub: [${answers.githubUsername}](https://github.com/${answers.githubUsername})
+- Email: [${answers.email}](mailto:${answers.email})
+`;
+
+
+
+// TODO: Create a function to write README file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+        if (err) {
+            console.error("Error writing to file", err);
+            return;
+        }
+            console.log('File written successfully!');
+    });
+};
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        const readmeContent = generateReadme(answers);
+        writeToFile('README.md', readmeContent);
+    }).catch((err) => {
+        console.error("Error with inquirer prompt", err);
+    });
+}
 
 // Function call to initialize app
 init();
